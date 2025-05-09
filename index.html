@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Personalized Fitness Coach - Get your custom fitness plan!">
+    <title>Personalized Fitness Coach</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💪</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <h1>💪 Personalized Fitness Coach</h1>
+        <p class="subtitle">Get your custom fitness plan tailored just for you!</p>
+        <form method="POST">
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" required>
+            </div>
+            <div class="form-group">
+                <label for="weight">Weight (kg):</label>
+                <input type="number" id="weight" name="weight" step="0.1" required>
+            </div>
+            <div class="form-group">
+                <label for="height">Height (cm):</label>
+                <input type="number" id="height" name="height" step="0.1" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender" required>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="goal">Fitness Goal:</label>
+                <select id="goal" name="goal" required>
+                    <option value="weight_loss">Weight Loss</option>
+                    <option value="muscle_gain">Muscle Gain</option>
+                    <option value="general_fitness">General Fitness</option>
+                </select>
+            </div>
+            <button type="submit">Get My Plan 🚀</button>
+        </form>
+
+        {% if show_result %}
+        <div class="result">
+            <h2>Your Personalized Fitness Plan</h2>
+            <div class="plan-detail">
+                <p><strong>BMI:</strong> {{ plan.bmi }}</p>
+                <p><strong>Workout:</strong> {{ plan.workout }}</p>
+                <p><strong>Diet:</strong> {{ plan.diet }}</p>
+            </div>
+            <div class="video-container">
+                <iframe width="100%" height="315" src="{{ plan.video_link }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <h3>Weekly Plan</h3>
+            <ul class="weekly-plan">
+                {% for day, activity in plan.weekly_plan.items() %}
+                <li><strong>{{ day }}:</strong> {{ activity }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
